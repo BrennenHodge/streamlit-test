@@ -6,12 +6,16 @@ def send_reminder(message):
     print(f"Reminder: {message}")
 
 def schedule_reminders(reminder_times, messages):
-    while True:
+    while reminder_times:  # Continue as long as there are remaining reminders
         current_time = datetime.datetime.now().time()
         for reminder_time in reminder_times:
             if current_time >= reminder_time:
                 index = reminder_times.index(reminder_time)
                 send_reminder(messages[index])
+                # Remove the reminder that was just processed
+                reminder_times.pop(index)
+                messages.pop(index)
+                break  # Restart the loop since we've modified the list
         time.sleep(60)  # Check the time every minute
 
 # Example usage
@@ -28,3 +32,4 @@ messages = [
 ]
 
 schedule_reminders(reminder_times, messages)
+
